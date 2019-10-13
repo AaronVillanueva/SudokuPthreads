@@ -3,9 +3,14 @@
 #include <unistd.h>
 #include <pthread.h> 
 
+typedef struct data{
+  int num;
+  int array[9]
+}
+
 int main(){
   
-  int array[9][9]={ {0,0,0,0,0,0,0,0,0},
+  int sudoku[9][9]={ {0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0},
