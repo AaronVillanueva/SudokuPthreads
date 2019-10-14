@@ -4,7 +4,7 @@
 #include <pthread.h> 
 
 /*1 vertical, 1 horizontals, 9 for subgrids*/
-typedef struct data{
+typedef data{
   int num;
 }
 
