@@ -4,9 +4,15 @@
 #include <pthread.h> 
 
 /*1 vertical, 1 horizontals, 9 for subgrids*/
-typedef struct data{
+typedef struct par{
   int num;
-} data;
+  int row;
+  int col;
+  int (*sudoku)[9];
+    
+} par;
+
+int results[11];
 
 void *column(void *arg);
 void *row(void *arg);
@@ -24,14 +30,14 @@ int main(){
                     {9,8,1,3,4,5,2,7,6},
                     {3,7,4,9,6,2,8,1,5}};
   
-  int results[11];
   
+  par *data[9]; 
  
-  data datC,datR;
+  data[0]->sudoku=sudoku;
   pthread_t threads[11];
   
-  datC.num=0;
-  pthread_create(&threads[0],NULL,column,(void *)datC);
+    
+  pthread_create(&threads[0],NULL,column,(void *)data[0]);
   
   
   
@@ -39,12 +45,18 @@ int main(){
   if(results[0]==1){
     printf("yay");
   }
+  
   return 0;
 }
 
-void column(void *arg){
+void *column(void *data){
+    
+  par *params=(par*)data;
+    
+  
   int i,j,k;
   int countColumn;
+  int count;
   
   for (i=0;i<9;i++){
     count=0;
@@ -52,7 +64,7 @@ void column(void *arg){
       
       for (k=0;k<=9;k++){
         
-        if( sudoku[k][i]==j ){
+        if( params->sudoku[k][i]==j ){
           countColumn+=1;
           break;
         }
@@ -66,13 +78,11 @@ void column(void *arg){
   }
   
   if (count==9){
-    results[num]=1;
+    results[0]=1;
   }
   else{
-    results[num]=0;
+    results[0]=0;
   }
-    
+  pthread_exit(NULL);
   
 }
-
-
