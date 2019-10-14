@@ -4,9 +4,9 @@
 #include <pthread.h> 
 
 /*1 vertical, 1 horizontals, 9 for subgrids*/
-typedef data{
+typedef struct data{
   int num;
-}
+} data;
 
 void *column(void *arg);
 void *row(void *arg);
