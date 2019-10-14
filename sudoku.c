@@ -5,20 +5,17 @@
 
 /*1 vertical, 1 horizontals, 9 for subgrids*/
 typedef struct par{
-  int num;
-  int row;
-  int col;
   int (*sudoku)[9];
     
 } par;
 
-int results[11];
+int results[11]={0,0,0,0,0,0,0,0,0,0,0};
 
 void *column(void *arg);
 void *row(void *arg);
 void *subgrid(void *arg);
 
-int main(){
+int main(void){
   
   int sudoku[9][9]={{8,3,5,4,1,6,9,2,7},
                     {2,9,6,8,5,7,4,3,1},
@@ -30,10 +27,11 @@ int main(){
                     {9,8,1,3,4,5,2,7,6},
                     {3,7,4,9,6,2,8,1,5}};
   
-  
   par *data[9]; 
- 
-  data[0]->sudoku=sudoku;
+  for (int i=0;i<9;i++){
+    data[i] = (par *)malloc(sizeof(par));
+    data[i]->sudoku=sudoku;  
+      }
   pthread_t threads[11];
   
     
@@ -43,7 +41,7 @@ int main(){
   
   pthread_join(threads[0],NULL);
   if(results[0]==1){
-    printf("yay");
+    /*printf("yay");*/
   }
   
   return 0;
@@ -56,25 +54,27 @@ void *column(void *data){
   
   int i,j,k;
   int countColumn;
-  int count;
-  
+  int count=0;
+  /* column iteration*/
   for (i=0;i<9;i++){
-    count=0;
-    for (j=0;j<9;j++){
+    countColumn=0;
+    
+    for (j=1;j<=9;j++){
       
-      for (k=0;k<=9;k++){
+      for (k=0;k<9;k++){
         
         if( params->sudoku[k][i]==j ){
           countColumn+=1;
+          /*printf("\n %d   %d",j,countColumn);*/
           break;
         }
         
       }
     
     }
-  if(countColumn==9){
+    if(countColumn==9){
     count+=1;
-  }
+    }
   }
   
   if (count==9){
