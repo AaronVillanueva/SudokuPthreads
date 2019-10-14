@@ -40,41 +40,69 @@ int main(void){
   
     
   pthread_create(&threads[0],NULL,column,(void *)data[0]);
-  
+  pthread_create(&threads[1],NULL,row,(void *)data[0]);
   
   
   pthread_join(threads[0],NULL);
-  if(results[0]==1){
-    /*printf("yay");*/
+  pthread_join(threads[1],NULL);
+  if(results[1]==1){
+    printf("yay");
   }
   
   return 0;
 }
 
-void *column(void *data){
-    
+void *row(void *data){
   par *params=(par*)data;
-    
+  int i,j,k;
+  int countRow;
+  int count=0;
+  /* row iteration*/
+  for (i=0;i<9;i++){
+    countRow=0;
+    /*for each number*/
+    for (j=1;j<=9;j++){
+      /*for each column within a row*/
+      for (k=0;k<9;k++){
+        if( params->sudoku[i][k]==j ){
+          countRow+=1;
+          /*printf("\n %d   %d",j,countColumn);*/
+          break;
+        }
+      }
+    }
+    if(countRow==9){
+    count+=1;
+    }
+  }
   
+  if (count==9){
+    results[1]=1;
+  }
+  else{
+    results[1]=0;
+  }
+  pthread_exit(NULL);
+}
+
+void *column(void *data){
+  par *params=(par*)data;
   int i,j,k;
   int countColumn;
   int count=0;
   /* column iteration*/
   for (i=0;i<9;i++){
     countColumn=0;
-    
+    /*for each number*/
     for (j=1;j<=9;j++){
-      
+      /*for each row within a column*/
       for (k=0;k<9;k++){
-        
         if( params->sudoku[k][i]==j ){
           countColumn+=1;
           /*printf("\n %d   %d",j,countColumn);*/
           break;
         }
-        
       }
-    
     }
     if(countColumn==9){
     count+=1;
@@ -88,5 +116,4 @@ void *column(void *data){
     results[0]=0;
   }
   pthread_exit(NULL);
-  
 }
