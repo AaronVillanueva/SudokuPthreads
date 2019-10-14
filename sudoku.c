@@ -35,9 +35,10 @@ int main(){
   
   
   
-  pthread_join(threads[0]);
-  printf(results[0]);
-  
+  pthread_join(threads[0],NULL);
+  if(results[0]==1){
+    printf("yay");
+  }
   return 0;
 }
 
