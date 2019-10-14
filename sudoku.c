@@ -1,3 +1,7 @@
+/*
+http://coliru.stacked-crooked.com/
+*/
+
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <unistd.h>
